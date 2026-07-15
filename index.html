@@ -2,15 +2,15 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CA Sublimación - Pedidos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CA Sublimación</title>
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; text-align: center; }
-        .producto { background: white; margin: 10px auto; padding: 15px; border-radius: 8px; width: 90%; max-width: 400px; }
-        .producto img { width: 100px; }
-        input { width: 50px; }
-        #total-general { font-size: 1.5em; color: #27ae60; font-weight: bold; }
-        .pago-info { background: #eee; padding: 15px; margin-top: 20px; border-radius: 8px; text-align: left; }
-        .btn-reportar { display: block; background: #25d366; color: white; padding: 15px; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px; }
+        .producto-card { background: white; padding: 15px; margin: 10px auto; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .producto-card img { width: 100%; border-radius: 5px; margin-bottom: 10px; }
+        input[type="number"] { width: 60px; padding: 5px; font-size: 1.1em; }
+        .resumen { font-size: 1.2em; font-weight: bold; color: #27ae60; margin: 20px 0; }
+        .boton-pago { background: #25d366; color: white; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1em; }
     </style>
 </head>
 <body>
@@ -18,44 +18,69 @@
     <h1>Creaciones Angelismar</h1>
     <p>Tecnología de Sublimación</p>
 
-    <!-- Lista de productos -->
-    <div id="lista-productos">
-        <div class="producto" data-precio="800" data-nombre="Plancha">
-            <h3>Plancha ($800)</h3>
-            <input type="number" value="0" min="0" onchange="calcular()">
+    <div id="productos">
+        <!-- Producto 1 -->
+        <div class="producto-card" data-precio="800" data-nombre="Plancha">
+            <h3>Plancha de Sublimar ($800)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calcular()">
         </div>
-        <div class="producto" data-precio="95" data-nombre="Cajas Tazas">
-            <h3>Cajas Tazas ($95)</h3>
-            <input type="number" value="0" min="0" onchange="calcular()">
+        <!-- Producto 2 -->
+        <div class="producto-card" data-precio="95" data-nombre="Cajas Tazas">
+            <h3>Cajas de Tazas ($95)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calcular()">
         </div>
-        <!-- (Repite este bloque para cada producto cambiando precio y nombre) -->
+        <!-- Producto 3 -->
+        <div class="producto-card" data-precio="20" data-nombre="Cinta Termica">
+            <h3>Cinta Térmica ($20)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calcular()">
+        </div>
+        <!-- Producto 4 -->
+        <div class="producto-card" data-precio="460" data-nombre="Impresora">
+            <h3>Impresora Epson L1250 ($460)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calcular()">
+        </div>
+        <!-- Producto 5 -->
+        <div class="producto-card" data-precio="80" data-nombre="Tintas">
+            <h3>Tintas Medio Litro ($80)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calcular()">
+        </div>
+        <!-- Producto 6 -->
+        <div class="producto-card" data-precio="90" data-nombre="Resma Hojas">
+            <h3>Resma de Hojas ($90)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calcular()">
+        </div>
     </div>
 
-    <h2>Total a Pagar: $<span id="total-general">0</span></h2>
-    <h3>Anticipo (60%): $<span id="anticipo">0</span></h3>
+    <div class="resumen">
+        <p>Total Pedido: $<span id="total-final">0</span></p>
+        <p>Anticipo 60%: $<span id="anticipo-final">0</span></p>
+    </div>
 
-    <div class="pago-info">
+    <div class="producto-card" style="text-align: left;">
         <h3>Datos para Cancelar</h3>
-        <p><strong>Pago Móvil:</strong> 0102 - 04122380482 - J-17891913</p>
-        <p><strong>Binance ID:</strong> TBGuDDMSZCbFkMTPMYmPrRRJKyujEzbzjT</p>
+        <p>Pago Móvil: 04122380482 (0102)</p>
+        <p>Binance ID: TBGuDDMSZCbFkMTPMYmPrRRJKyujEzbzjT</p>
     </div>
 
-    <a href="#" class="btn-reportar" onclick="reportar()">Reportar Pago por WhatsApp</a>
+    <button class="boton-pago" onclick="reportar()">Reportar Pago por WhatsApp</button>
 
     <script>
         function calcular() {
             let total = 0;
-            document.querySelectorAll('.producto').forEach(p => {
-                total += p.dataset.precio * p.querySelector('input').value;
+            document.querySelectorAll('.producto-card').forEach(item => {
+                let precio = parseInt(item.getAttribute('data-precio'));
+                let cant = parseInt(item.querySelector('.cant').value) || 0;
+                total += precio * cant;
             });
-            document.getElementById('total-general').innerText = total;
-            document.getElementById('anticipo').innerText = (total * 0.60).toFixed(2);
+            document.getElementById('total-final').innerText = total;
+            document.getElementById('anticipo-final').innerText = (total * 0.60).toFixed(2);
         }
 
         function reportar() {
-            let total = document.getElementById('total-general').innerText;
-            let ant = document.getElementById('anticipo').innerText;
-            let url = "https://wa.me/584122380482?text=" + encodeURIComponent("Hola, quiero reportar el pago del 60% ($" + ant + ") del pedido total ($" + total + "). Aquí adjunto mi comprobante.");
+            let total = document.getElementById('total-final').innerText;
+            let ant = document.getElementById('anticipo-final').innerText;
+            if(total == 0) { alert("¡Primero selecciona al menos un producto!"); return; }
+            let url = "https://wa.me/584122380482?text=Hola,%20quiero%20reportar%20el%20pago%20del%2060%%20($"+ant+")%20de%20un%20total%20de%20$"+total+".%20Adjunto%20mi%20comprobante.";
             window.location.href = url;
         }
     </script>
