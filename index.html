@@ -2,18 +2,20 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creaciones Angelismar</title>
     <style>
         body { font-family: sans-serif; background: #f4f4f4; text-align: center; padding: 20px; }
         .card { background: white; margin: 15px auto; padding: 15px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         img { width: 100%; border-radius: 5px; }
-        input { width: 60px; padding: 5px; font-size: 1.2em; }
+        input { width: 60px; padding: 5px; font-size: 1.2em; text-align: center; }
         .btn-reportar { display: block; background: #25d366; color: white; padding: 15px; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
     <img src="imágenes/logo.jpg" style="width:150px;">
     <h1>Creaciones Angelismar</h1>
+    <p>Tecnología de Sublimación</p>
     
     <div id="lista">
         <div class="card" data-precio="800" data-nombre="Plancha">
@@ -26,12 +28,37 @@
             <h3>Cajas de Tazas ($95)</h3>
             <input type="number" class="cant" value="0" min="0" oninput="calc()">
         </div>
-        <!-- (Añade los otros bloques siguiendo este mismo formato) -->
+        <div class="card" data-precio="20" data-nombre="Cinta">
+            <img src="imágenes/cinta.jpg">
+            <h3>Cinta Térmica ($20)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calc()">
+        </div>
+        <div class="card" data-precio="460" data-nombre="Impresora">
+            <img src="imágenes/impresora.jpg">
+            <h3>Impresora ($460)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calc()">
+        </div>
+        <div class="card" data-precio="80" data-nombre="Tintas">
+            <img src="imágenes/tinta.jpg">
+            <h3>Tintas ($80)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calc()">
+        </div>
+        <div class="card" data-precio="90" data-nombre="Papel">
+            <img src="imágenes/papel.jpg">
+            <h3>Resma de Hojas ($90)</h3>
+            <input type="number" class="cant" value="0" min="0" oninput="calc()">
+        </div>
     </div>
 
     <h2>Total: $<span id="total">0</span></h2>
     <h3>Anticipo (60%): $<span id="anticipo">0</span></h3>
     
+    <div class="card" style="text-align: left;">
+        <h3>Datos para Cancelar</h3>
+        <p>Pago Móvil: 04122380482 (0102)</p>
+        <p>Binance ID: TBGuDDMSZCbFkMTPMYmPrRRJKyujEzbzjT</p>
+    </div>
+
     <a href="#" class="btn-reportar" onclick="reportar()">Reportar Pago por WhatsApp</a>
 
     <script>
@@ -45,7 +72,9 @@
         }
         function reportar() {
             let ant = document.getElementById('anticipo').innerText;
-            window.location.href = "https://wa.me/584122380482?text=Reporto%20pago%20del%2060%25%20($"+ant+")";
+            let tot = document.getElementById('total').innerText;
+            if(tot == 0) { alert("¡Selecciona algo primero!"); return; }
+            window.location.href = "https://wa.me/584122380482?text=Hola,%20reporto%20el%2060%25%20de%20anticipo%20($"+ant+")%20de%20mi%20pedido%20total%20($"+tot+").";
         }
     </script>
 </body>
