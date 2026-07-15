@@ -3,32 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creaciones Angelismar</title>
+    <title>Creaciones Angelismar - Tu Pedido</title>
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; text-align: center; padding: 20px; }
-        .card { background: white; margin: 15px auto; padding: 15px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f4f4; text-align: center; padding: 15px; }
+        .card { background: white; margin: 10px auto; padding: 15px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         img { width: 100%; border-radius: 5px; }
-        input { width: 60px; padding: 5px; font-size: 1.2em; text-align: center; }
-        .btn-reportar { display: block; background: #25d366; color: white; padding: 15px; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }
+        input { width: 60px; padding: 8px; font-size: 1.1em; text-align: center; border: 2px solid #ddd; border-radius: 5px; }
+        .btn-reportar { display: block; background: #25d366; color: white; padding: 18px; text-decoration: none; border-radius: 8px; margin: 25px auto; font-weight: bold; font-size: 1.1em; width: 90%; max-width: 400px; }
+        .pago-box { text-align: left; background: #fff; padding: 20px; border-left: 5px solid #27ae60; margin-top: 20px; }
+        .resumen-carrito { background: #333; color: white; padding: 15px; border-radius: 10px; margin: 20px 0; }
     </style>
 </head>
 <body>
-    <img src="imágenes/logo.jpg" style="width:150px;">
+    <img src="imágenes/logo.jpg" style="width:120px;">
     <h1>Creaciones Angelismar</h1>
     <p>Tecnología de Sublimación</p>
     
     <div id="lista">
-        <div class="card" data-precio="800" data-nombre="Plancha">
+        <div class="card" data-precio="800" data-nombre="Plancha de Sublimar">
             <img src="imágenes/plancha.jpg">
             <h3>Plancha ($800)</h3>
             <input type="number" class="cant" value="0" min="0" oninput="calc()">
         </div>
-        <div class="card" data-precio="95" data-nombre="Tazas">
+        <div class="card" data-precio="95" data-nombre="Cajas de Tazas">
             <img src="imágenes/tazas.jpg">
             <h3>Cajas de Tazas ($95)</h3>
             <input type="number" class="cant" value="0" min="0" oninput="calc()">
         </div>
-        <div class="card" data-precio="20" data-nombre="Cinta">
+        <div class="card" data-precio="20" data-nombre="Cinta Térmica">
             <img src="imágenes/cinta.jpg">
             <h3>Cinta Térmica ($20)</h3>
             <input type="number" class="cant" value="0" min="0" oninput="calc()">
@@ -50,31 +52,50 @@
         </div>
     </div>
 
-    <h2>Total: $<span id="total">0</span></h2>
-    <h3>Anticipo (60%): $<span id="anticipo">0</span></h3>
+    <div class="resumen-carrito">
+        <h2>🛍️ TU CARRITO</h2>
+        <h3>TOTAL: $<span id="grand-total">0</span></h3>
+        <h2 style="color: #27ae60;">ANTICIPO (60%): $<span id="grand-anticipo">0</span></h2>
+    </div>
     
-    <div class="card" style="text-align: left;">
-        <h3>Datos para Cancelar</h3>
-        <p>Pago Móvil: 04122380482 (0102)</p>
-        <p>Binance ID: TBGuDDMSZCbFkMTPMYmPrRRJKyujEzbzjT</p>
+    <div class="pago-box">
+        <h3>💳 Datos para Cancelar</h3>
+        <p><strong>Pago Móvil:</strong><br>0102 - 04122380482<br>RIF: J-17891913</p>
+        <p>⬡ <strong>Binance Pay (ID):</strong><br>TBGuDDMSZCbFkMTPMYmPrRRJKyujEzbzjT</p>
     </div>
 
-    <a href="#" class="btn-reportar" onclick="reportar()">Reportar Pago por WhatsApp</a>
+    <a href="#" class="btn-reportar" onclick="reportar()">Enviar Pedido por WhatsApp</a>
 
     <script>
         function calc() {
-            let total = 0;
+            let grandTotal = 0;
+            let grandAnticipo = 0;
             document.querySelectorAll('.card').forEach(c => {
-                total += c.dataset.precio * c.querySelector('.cant').value;
+                let precio = parseInt(c.dataset.precio) || 0;
+                let cant = parseInt(c.querySelector('.cant').value) || 0;
+                grandTotal += (precio * cant);
             });
-            document.getElementById('total').innerText = total;
-            document.getElementById('anticipo').innerText = (total * 0.60).toFixed(2);
+            grandAnticipo = grandTotal * 0.60;
+            document.getElementById('grand-total').innerText = grandTotal;
+            document.getElementById('grand-anticipo').innerText = grandAnticipo.toFixed(2);
         }
+
         function reportar() {
-            let ant = document.getElementById('anticipo').innerText;
-            let tot = document.getElementById('total').innerText;
-            if(tot == 0) { alert("¡Selecciona algo primero!"); return; }
-            window.location.href = "https://wa.me/584122380482?text=Hola,%20reporto%20el%2060%25%20de%20anticipo%20($"+ant+")%20de%20mi%20pedido%20total%20($"+tot+").";
+            let msg = "📝 *PEDIDO - Creaciones Angelismar*\n\n";
+            let total = document.getElementById('grand-total').innerText;
+            let anticipo = document.getElementById('grand-anticipo').innerText;
+            
+            document.querySelectorAll('.card').forEach(c => {
+                let cant = c.querySelector('.cant').value;
+                if(cant > 0) {
+                    msg += "• " + c.dataset.nombre + ": " + cant + "\n";
+                }
+            });
+            msg += "\n━━━━━━━━━━━━━━━━\n";
+            msg += "💰 *TOTAL: $" + total + "*\n";
+            msg += "✅ *ANTICIPO (60%): $" + anticipo + "*\n\n";
+            msg += "Adjunto mi comprobante de pago.";
+            window.location.href = "https://wa.me/584122380482?text=" + encodeURIComponent(msg);
         }
     </script>
 </body>
