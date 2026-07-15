@@ -2,87 +2,62 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo - CA Sublimación</title>
+    <title>CA Sublimación - Pedidos</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; text-align: center; padding: 10px; }
-        .logo { width: 150px; margin-bottom: 5px; }
-        .subtitulo { color: #555; font-style: italic; margin-bottom: 20px; }
-        .producto { background: white; border-radius: 10px; padding: 15px; margin: 15px auto; width: 95%; max-width: 350px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .producto img { width: 100%; height: auto; border-radius: 5px; }
-        .precio { color: #27ae60; font-size: 1.3em; font-weight: bold; margin-top: 10px; }
-        .aviso-pago { font-size: 0.9em; color: #d35400; margin: 5px 0; font-weight: bold; }
-        .boton-wp { display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #25d366; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        .datos-pago { background: #fff; padding: 20px; margin-top: 30px; border-top: 2px solid #ccc; text-align: left; }
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; text-align: center; }
+        .producto { background: white; margin: 10px auto; padding: 15px; border-radius: 8px; width: 90%; max-width: 400px; }
+        .producto img { width: 100px; }
+        input { width: 50px; }
+        #total-general { font-size: 1.5em; color: #27ae60; font-weight: bold; }
+        .pago-info { background: #eee; padding: 15px; margin-top: 20px; border-radius: 8px; text-align: left; }
+        .btn-reportar { display: block; background: #25d366; color: white; padding: 15px; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <!-- Encabezado -->
-    <img src="imágenes/1784128901970.jpg" alt="Logo" class="logo">
     <h1>Creaciones Angelismar</h1>
-    <p class="subtitulo">Tecnología de Sublimación</p>
+    <p>Tecnología de Sublimación</p>
 
-    <!-- Productos -->
-    <div class="producto">
-        <img src="imágenes/8d8f3889791a0c2433c73399207aace9.jpg" alt="Plancha">
-        <h3>Plancha de Sublimar</h3>
-        <p class="precio">$800</p>
-        <p class="aviso-pago">Anticipo (60%): $480</p>
-        <a href="https://wa.me/584122380482?text=Hola,%20quiero%20hacer%20el%20pedido%20de%20la%20Plancha%20de%20Sublimar%20($800).%20Aquí%20adjunto%20el%20pago%20del%2060%20por%20ciento." class="boton-wp">Pedir y Reportar 60%</a>
+    <!-- Lista de productos -->
+    <div id="lista-productos">
+        <div class="producto" data-precio="800" data-nombre="Plancha">
+            <h3>Plancha ($800)</h3>
+            <input type="number" value="0" min="0" onchange="calcular()">
+        </div>
+        <div class="producto" data-precio="95" data-nombre="Cajas Tazas">
+            <h3>Cajas Tazas ($95)</h3>
+            <input type="number" value="0" min="0" onchange="calcular()">
+        </div>
+        <!-- (Repite este bloque para cada producto cambiando precio y nombre) -->
     </div>
 
-    <div class="producto">
-        <img src="imágenes/D_NQ_NP_622641-MLV93627243068_102025-O....jpg" alt="Cajas de Tazas">
-        <h3>Cajas de Tazas</h3>
-        <p class="precio">$95</p>
-        <p class="aviso-pago">Anticipo (60%): $57</p>
-        <a href="https://wa.me/584122380482?text=Hola,%20quiero%20hacer%20el%20pedido%20de%20las%20Cajas%20de%20Tazas%20($95).%20Aquí%20adjunto%20el%20pago%20del%2060%20por%20ciento." class="boton-wp">Pedir y Reportar 60%</a>
+    <h2>Total a Pagar: $<span id="total-general">0</span></h2>
+    <h3>Anticipo (60%): $<span id="anticipo">0</span></h3>
+
+    <div class="pago-info">
+        <h3>Datos para Cancelar</h3>
+        <p><strong>Pago Móvil:</strong> 0102 - 04122380482 - J-17891913</p>
+        <p><strong>Binance ID:</strong> TBGuDDMSZCbFkMTPMYmPrRRJKyujEzbzjT</p>
     </div>
 
-    <div class="producto">
-        <img src="imágenes/D_NQ_NP_857715-MLV51246588798_082022-O....jpg" alt="Cinta Térmica">
-        <h3>Cinta Térmica</h3>
-        <p class="precio">$20</p>
-        <p class="aviso-pago">Anticipo (60%): $12</p>
-        <a href="https://wa.me/584122380482?text=Hola,%20quiero%20hacer%20el%20pedido%20de%20la%20Cinta%20Térmica%20($20).%20Aquí%20adjunto%20el%20pago%20del%2060%20por%20ciento." class="boton-wp">Pedir y Reportar 60%</a>
-    </div>
+    <a href="#" class="btn-reportar" onclick="reportar()">Reportar Pago por WhatsApp</a>
 
-    <div class="producto">
-        <img src="imágenes/Impresora-Epson-L1250-Para-Sublimacion-Con-Ti....jpg" alt="Impresora">
-        <h3>Impresora Epson L1250</h3>
-        <p class="precio">$460</p>
-        <p class="aviso-pago">Anticipo (60%): $276</p>
-        <a href="https://wa.me/584122380482?text=Hola,%20quiero%20hacer%20el%20pedido%20de%20la%20Impresora%20Epson%20L1250%20($460).%20Aquí%20adjunto%20el%20pago%20del%2060%20por%20ciento." class="boton-wp">Pedir y Reportar 60%</a>
-    </div>
+    <script>
+        function calcular() {
+            let total = 0;
+            document.querySelectorAll('.producto').forEach(p => {
+                total += p.dataset.precio * p.querySelector('input').value;
+            });
+            document.getElementById('total-general').innerText = total;
+            document.getElementById('anticipo').innerText = (total * 0.60).toFixed(2);
+        }
 
-    <div class="producto">
-        <img src="imágenes/images (1).jpeg" alt="Tintas">
-        <h3>Tintas (Medio Litro)</h3>
-        <p class="precio">$80</p>
-        <p class="aviso-pago">Anticipo (60%): $48</p>
-        <a href="https://wa.me/584122380482?text=Hola,%20quiero%20hacer%20el%20pedido%20de%20las%20Tintas%20Medio%20Litro%20($80).%20Aquí%20adjunto%20el%20pago%20del%2060%20por%20ciento." class="boton-wp">Pedir y Reportar 60%</a>
-    </div>
-
-    <div class="producto">
-        <img src="imágenes/images (10).jpeg" alt="Papel">
-        <h3>Resma de Hojas</h3>
-        <p class="precio">$90</p>
-        <p class="aviso-pago">Anticipo (60%): $54</p>
-        <a href="https://wa.me/584122380482?text=Hola,%20quiero%20hacer%20el%20pedido%20de%20la%20Resma%20de%20Hojas%20($90).%20Aquí%20adjunto%20el%20pago%20del%2060%20por%20ciento." class="boton-wp">Pedir y Reportar 60%</a>
-    </div>
-
-    <!-- Datos de Pago -->
-    <div class="datos-pago">
-        <h3>Métodos de Pago para el 60%</h3>
-        <p><strong>Pago Móvil:</strong><br>
-        Banco: Venezuela (0102)<br>
-        RIF: J-17891913<br>
-        Teléfono: 0412-2380482</p>
-
-        <p><strong>Binance Pay (ID):</strong><br>
-        TBGuDDMSZCbFkMTPMYmPrRRJKyujEzbzjT</p>
-    </div>
-
+        function reportar() {
+            let total = document.getElementById('total-general').innerText;
+            let ant = document.getElementById('anticipo').innerText;
+            let url = "https://wa.me/584122380482?text=" + encodeURIComponent("Hola, quiero reportar el pago del 60% ($" + ant + ") del pedido total ($" + total + "). Aquí adjunto mi comprobante.");
+            window.location.href = url;
+        }
+    </script>
 </body>
 </html>
